@@ -11,7 +11,7 @@ public class Mover : MonoBehaviour {
     public bool isReversed;
     public bool isLooping;
     public bool PingPong;
-
+    public int howlongistrain;
 	private int currentSeg;
 	private float transition;
 	private bool isCompleted;
@@ -54,7 +54,7 @@ public class Mover : MonoBehaviour {
                     }
                     else
                     {
-                        currentSeg = 0;
+                        currentSeg = howlongistrain;
                     }
                 }
                 else
