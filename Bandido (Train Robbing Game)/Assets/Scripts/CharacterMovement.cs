@@ -1,17 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(CharacterController))]
-public class CharacterMovement : MonoBehaviour
+
+ public class CharacterMovement : MonoBehaviour
 {
-    public float speed = 3.0F;
-    public float rotateSpeed = 3.0F;
+    //Variables
+    public float speed = 6.0F;
+    public float jumpSpeed = 8.0F;
+    public float gravity = 20.0F;
+    private Vector3 moveDirection = Vector3.zero;
+
     void Update()
     {
         CharacterController controller = GetComponent<CharacterController>();
-        transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        float curSpeed = speed * Input.GetAxis("Vertical");
-        controller.SimpleMove(forward * curSpeed);
+        // is the controller on the ground?
+        if (controller.isGrounded)
+        {
+            //Feed moveDirection with input.
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            //Multiply it by speed.
+            moveDirection *= speed;
+            //Jumping
+            if (Input.GetButton("Jump"))
+                moveDirection.y = jumpSpeed;
+
+
+            transform.parent = GetGroundTransform();
+        }
+        //Applying gravity to the controller
+        moveDirection.y -= gravity * Time.deltaTime;
+        //Making the character move
+        controller.Move(moveDirection * Time.deltaTime);
     }
+
+
+    Transform GetGroundTransform()
+    {
+        Vector3 fwd = transform.TransformDirection(Vector3.down);
+
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, Vector3.down, Color.green);
+
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+            
+           Debug.Log("On Car "+hit.transform );
+        return hit.transform;
+    }
+
+
 }

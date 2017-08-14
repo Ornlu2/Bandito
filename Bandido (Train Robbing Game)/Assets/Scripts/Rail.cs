@@ -10,11 +10,14 @@ public enum PlayMode
 }
 [ExecuteInEditMode]
 
+
+
 public class Rail : MonoBehaviour {
 
-    
+    public bool ShowPathOfTrain;
 
-	public Transform[] nodes;
+
+    public Transform[] nodes;
 
 	private void Start()
 	{
@@ -101,18 +104,20 @@ public class Rail : MonoBehaviour {
 
     private void OnDrawGizmos()
 	{
-		for (int i = 1; i < nodes.Length-1;i++)
-		{
-			Handles.DrawDottedLine (nodes [i].position, nodes [i + 1].position, 3.0f);
+        if (ShowPathOfTrain == true)
+            {
+
+            for (int i = 1; i < nodes.Length - 1; i++)
+            {
+                Handles.DrawDottedLine(nodes[i].position, nodes[i + 1].position, 3.0f);
+
+                Vector3 y = new Vector3(0,nodes[i+1].rotation.y,0);
+                Vector3 direction = nodes[i].position - nodes[i + 1].position;
+
+               
 
 
-           Vector3 direction = nodes[i].position - nodes[i + 1].position;
-
-            
-            Handles.ArrowHandleCap(0, nodes[i].position, Quaternion.Euler(0,transform.rotation.y,0), 3f, EventType.Repaint);
-            
-            
+            }
         }
-     
     }
 }
