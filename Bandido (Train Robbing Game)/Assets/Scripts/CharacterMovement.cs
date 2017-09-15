@@ -9,6 +9,14 @@ using System.Collections;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     private Vector3 moveDirection = Vector3.zero;
+    public GameObject Weapon;
+    Animator AttackAnim;
+
+
+    private void Start()
+    {
+       
+    }
 
     void Update()
     {
@@ -32,6 +40,23 @@ using System.Collections;
         moveDirection.y -= gravity * Time.deltaTime;
         //Making the character move
         controller.Move(moveDirection * Time.deltaTime);
+
+
+        Attack();
+    }
+
+
+    void Attack()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            AttackAnim.SetBool("IsAttacking", true);
+            Debug.Log("Attack");
+        }
+        if(Input.GetKeyUp(KeyCode.F))
+        {
+            AttackAnim.SetBool("IsAttacking", false);
+        }
     }
 
 
