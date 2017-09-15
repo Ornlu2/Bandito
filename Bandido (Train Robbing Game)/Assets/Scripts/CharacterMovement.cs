@@ -15,7 +15,7 @@ using System.Collections;
 
     private void Start()
     {
-       
+        AttackAnim = Weapon.GetComponent<Animator>();
     }
 
     void Update()
